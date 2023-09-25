@@ -1,0 +1,1 @@
+# first-firefox-extension
