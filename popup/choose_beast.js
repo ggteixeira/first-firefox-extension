@@ -6,6 +6,13 @@ const hidePage = `body > :not(.beastify-image) {
                     display: none;
                   }`;
 
+const paintParagraph = `
+  body {
+    p {
+      color: firebrick;
+    }
+  }`;
+
 /**
  * Listen for clicks on the buttons, and send the appropriate message to
  * the content script in the page.
@@ -23,7 +30,18 @@ function listenForClicks() {
           return browser.runtime.getURL("beasts/snake.jpg");
         case "Turtle":
           return browser.runtime.getURL("beasts/turtle.jpg");
+        case "Scramble":
+          console.log("Entrou no case scramble");
+          return;
+        case "Unscramble":
+          console.log("Entrou no case unscramble");
+          return;
       }
+    }
+
+    function scramble() {
+      console.log("Rodou a função scramble!");
+      browser.tabs.insertCSS({ code: paintParagraph });
     }
 
     /**
@@ -53,6 +71,14 @@ function listenForClicks() {
       });
     }
 
+    function unscramble(tabs) {
+      browser.tabs.removeCSS({ code: paintParagraph }).then(() => {
+        browser.tabs.sendMessage(tabs[0].id, {
+          command: "unscramble",
+        });
+      });
+    }
+
     /**
      * Just log the error to the console.
      */
@@ -68,15 +94,17 @@ function listenForClicks() {
       // Ignore when click is not on a button within <div id="popup-content">.
       return;
     }
+
     if (e.target.type === "reset") {
       browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(reset)
+        .then(unscramble)
         .catch(reportError);
     } else {
       browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(beastify)
+        // .then(beastify)
+        .then(scramble)
         .catch(reportError);
     }
   });
