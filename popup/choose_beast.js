@@ -19,44 +19,9 @@ const paintParagraph = `
  */
 function listenForClicks() {
   document.addEventListener("click", (e) => {
-    /**
-     * Given the name of a beast, get the URL to the corresponding image.
-     */
-    function beastNameToURL(beastName) {
-      switch (beastName) {
-        case "Frog":
-          return browser.runtime.getURL("beasts/frog.jpg");
-        case "Snake":
-          return browser.runtime.getURL("beasts/snake.jpg");
-        case "Turtle":
-          return browser.runtime.getURL("beasts/turtle.jpg");
-        case "Scramble":
-          console.log("Entrou no case scramble");
-          return;
-        case "Unscramble":
-          console.log("Entrou no case unscramble");
-          return;
-      }
-    }
-
     function scramble() {
       console.log("Rodou a função scramble!");
       browser.tabs.insertCSS({ code: paintParagraph });
-    }
-
-    /**
-     * Insert the page-hiding CSS into the active tab,
-     * then get the beast URL and
-     * send a "beastify" message to the content script in the active tab.
-     */
-    function beastify(tabs) {
-      browser.tabs.insertCSS({ code: hidePage }).then(() => {
-        const url = beastNameToURL(e.target.textContent);
-        browser.tabs.sendMessage(tabs[0].id, {
-          command: "beastify",
-          beastURL: url,
-        });
-      });
     }
 
     /**
