@@ -8,8 +8,9 @@ const hidePage = `body > :not(.beastify-image) {
 
 const paintParagraph = `
   body {
-    p {
-      color: firebrick;
+    p, a, b, span, td  {
+      color: transparent;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
   }`;
 
@@ -36,10 +37,10 @@ function listenForClicks() {
       });
     }
 
-    function unscramble(tabs) {
+    function unblur(tabs) {
       browser.tabs.removeCSS({ code: paintParagraph }).then(() => {
         browser.tabs.sendMessage(tabs[0].id, {
-          command: "unscramble",
+          command: "unblur",
         });
       });
     }
@@ -63,7 +64,7 @@ function listenForClicks() {
     if (e.target.type === "reset") {
       browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(unscramble)
+        .then(unblur)
         .catch(reportError);
     } else {
       browser.tabs
