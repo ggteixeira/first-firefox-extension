@@ -7,11 +7,10 @@ const hidePage = `body > :not(.beastify-image) {
                   }`;
 
 const paintParagraph = `
-  body {
-    p, a, b, span, td  {
-      color: transparent;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
+    * {
+      // color: transparent;
+      // text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      filter:blur(0.5px);
   }`;
 
 /**
